@@ -18,6 +18,7 @@ public class LeftRotation {
         int[] input = new int[count];
         int[] output = new int[count];
 
+        //Can get rid of input array, by directly populating in output array.
         for(int i=0; i < count; i++){
             input[i] = in.nextInt();
         }
