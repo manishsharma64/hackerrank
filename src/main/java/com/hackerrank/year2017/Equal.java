@@ -6,6 +6,9 @@ import java.util.Scanner;
  * Created by manishsharma on 1/24/17.
  * https://www.hackerrank.com/challenges/equal
  * Points: 306.17 Rank: 94441
+ * pass - 0, 1, 2, 10, 14
+ * fail - 11,12,13
+ * timeout - others
  */
 public class Equal {
     public static void main(String[] args) {
@@ -29,16 +32,16 @@ public class Equal {
             InputProperties ip = isInputSame(inputs);
             while(!ip.isInputSame){
                 if((inputs[ip.maxIndex] - inputs[ip.minIndex]) >= 5){
-                    increase(inputs, ip.maxIndex, 5);
+                    ip = isIncreaseAndCheckInputSame(inputs, ip.maxIndex, 5);
                 } else if((inputs[ip.maxIndex] - inputs[ip.minIndex]) >= 2){
-                    increase(inputs, ip.maxIndex, 2);
+                    ip = isIncreaseAndCheckInputSame(inputs, ip.maxIndex, 2);
                 } else {
-                    increase(inputs, ip.maxIndex, 1);
+                    ip = isIncreaseAndCheckInputSame(inputs, ip.maxIndex, 1);
                 }
 
                 noOfOperation++;
                 System.out.println(noOfOperation);
-                ip = isInputSame(inputs);
+                //ip = isInputSame(inputs);
             }
             System.out.println(noOfOperation);
         }
@@ -57,15 +60,35 @@ public class Equal {
         ip.maxIndex = 0;
 
         for(int i=1; i < inputs.length; i++){
-            if(inputs[i-1] != inputs[i])
-                ip.isInputSame = false;
-
             if(inputs[i] < inputs[ip.minIndex])
                 ip.minIndex = i;
 
             if(inputs[i] > inputs[ip.maxIndex])
                 ip.maxIndex = i;
         }
+        if(ip.maxIndex != ip.minIndex)
+            ip.isInputSame = false;
+
+        return ip;
+    }
+
+    private static InputProperties isIncreaseAndCheckInputSame(int[] inputs, int chosenOne, int offSet){
+        InputProperties ip = new InputProperties();
+        ip.minIndex = 0;
+        ip.maxIndex = 0;
+        inputs[chosenOne] -= offSet;
+
+        for(int i=1; i < inputs.length; i++){
+            if(inputs[i] < inputs[ip.minIndex])
+                ip.minIndex = i;
+
+            if(inputs[i] > inputs[ip.maxIndex])
+                ip.maxIndex = i;
+        }
+
+        if(ip.maxIndex != ip.minIndex)
+            ip.isInputSame = false;
+
         return ip;
     }
 }
